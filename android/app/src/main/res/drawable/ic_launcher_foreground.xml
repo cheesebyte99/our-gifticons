@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- icon.svg 의 쿠폰·바코드·하트·리본을 아이콘 안전 영역에 맞춰 옮겼다 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+    <group
+        android:pivotX="256"
+        android:pivotY="262"
+        android:rotation="-8"
+        android:scaleX="0.8"
+        android:scaleY="0.8">
+        <path
+            android:fillColor="#FFFDFB"
+            android:pathData="M116,176h280a20,20 0,0 1,20 20v44a32,32 0,0 0,0 64v44a20,20 0,0 1,-20 20H116a20,20 0,0 1,-20 -20v-44a32,32 0,0 0,0 -64v-44a20,20 0,0 1,20 -20z" />
+        <path
+            android:strokeColor="#F6C9BE"
+            android:strokeWidth="6"
+            android:pathData="M312,186v18M312,214v18M312,242v18M312,270v18M312,298v18M312,326v18" />
+        <path
+            android:fillColor="#2A2320"
+            android:pathData="M140,236h8v72h-8zM156,236h4v72h-4zM168,236h12v72h-12zM188,236h4v72h-4zM200,236h8v72h-8zM216,236h4v72h-4zM228,236h12v72h-12zM248,236h6v72h-6zM262,236h4v72h-4zM274,236h10v72h-10zM292,236h4v72h-4z" />
+        <path
+            android:fillColor="#FFD36E"
+            android:pathData="M350,176c-16,-30 -58,-36 -62,-10 -3,20 30,27 62,10zM350,176c16,-30 58,-36 62,-10 3,20 -30,27 -62,10z" />
+        <path
+            android:fillColor="#FFC23D"
+            android:pathData="M350,177m-12,0a12,12 0,1 1,24 0a12,12 0,1 1,-24 0" />
+        <path
+            android:fillColor="#E4604E"
+            android:pathData="M350,300s-26,-16 -26,-33a15,15 0,0 1,26 -10a15,15 0,0 1,26 10c0,17 -26,33 -26,33z" />
+    </group>
+</vector>

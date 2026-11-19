@@ -1,0 +1,71 @@
+name: 기프티콘 APK 빌드
+
+on:
+  push:
+    paths-ignore:
+      - 'README.md'
+      - 'CLAUDE.md'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: android
+    steps:
+      - uses: actions/checkout@v4
+
+      # 이미지 글자 읽기 규칙 시험 (ocr-parse.js)
+      - name: 글자 읽기 규칙 시험
+        working-directory: .
+        run: node --test test/*.test.js
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      # 저장소 비밀값 ANDROID_KEYSTORE_BASE64 가 있으면 그 키로 서명(없으면 android/debug.keystore)
+      - name: 서명 키 준비
+        env:
+          KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KEYSTORE_B64" ]; then
+            echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/release.keystore"
+            echo "ANDROID_KEYSTORE_PATH=$RUNNER_TEMP/release.keystore" >> "$GITHUB_ENV"
+          fi
+
+      - name: APK 빌드
+        env:
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          chmod +x gradlew
+          # 빌드할 때마다 번호가 하나씩 커져서 덮어쓰기 업데이트가 된다 (1.0.N, versionCode N)
+          ./gradlew --no-daemon assembleRelease \
+            -PversionCode=${{ github.run_number }} \
+            -PversionName=1.0.${{ github.run_number }}
+          cp app/build/outputs/apk/release/app-release.apk "$GITHUB_WORKSPACE/our-gifticons.apk"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: our-gifticons-apk
+          path: our-gifticons.apk
+
+      # main 에 올라가면 "최신" 릴리스로 올려 휴대폰에서 바로 받게 한다
+      - name: 릴리스에 올리기
+        if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: gifticons-apk-${{ github.run_number }}
+          name: 우리 기프티콘 APK 1.0.${{ github.run_number }}
+          body: 휴대폰에서 our-gifticons.apk 를 내려받아 설치하세요.
+          files: our-gifticons.apk
+          make_latest: true

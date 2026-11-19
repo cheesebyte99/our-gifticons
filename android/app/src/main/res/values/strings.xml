@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">우리 기프티콘</string>
+    <string name="share_title">초대 링크 보내기</string>
+    <string name="pick_images">기프티콘 이미지 고르기</string>
+    <string name="saved">사진 폴더(우리기프티콘)에 저장했어요</string>
+    <string name="save_failed">이미지를 저장하지 못했어요</string>
+    <string name="channel_name">기프티콘 알림</string>
+    <string name="channel_desc">유효기간이 다가올 때, 상대가 기프티콘을 넣거나 썼을 때</string>
+</resources>

@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="theme-color" content="#FFF7F3">
+<meta name="color-scheme" content="light">
+<title>우리 기프티콘</title>
+<meta name="description" content="연인과 함께 기프티콘을 모아 두고, 쓴 것은 체크해 흑백으로 정리하는 우리 둘의 기프티콘함. 유효기간이 다가오면 알려 줘요.">
+<meta name="application-name" content="우리 기프티콘">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="우리 기프티콘">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="icon" href="icon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+  :root {
+    --bg: #FFF7F3;
+    --card: #FFFFFF;
+    --ink: #2A2320;
+    --ink-2: #5E534D;
+    --ink-3: #9C918A;
+    --line: #F0E2DA;
+    --accent: #E4604E;
+    --accent-2: #C94B3A;
+    --accent-soft: #FDE6E0;
+    --warn: #E58A1F;
+    --warn-soft: #FDEFD9;
+    --ok: #3E9B6B;
+    --shadow: 0 2px 10px rgba(80, 40, 20, .08);
+    --radius: 16px;
+    --safe-b: env(safe-area-inset-bottom, 0px);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+    font-size: 15px; line-height: 1.45; min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  .hidden { display: none !important; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+
+  /* ---------- 처음 화면 */
+  #screen-setup { padding: 48px 0 40px; }
+  .hero { text-align: center; margin-bottom: 28px; }
+  .hero img { width: 84px; height: 84px; border-radius: 22px; box-shadow: var(--shadow); }
+  .hero h1 { margin: 14px 0 6px; font-size: 26px; letter-spacing: -.5px; }
+  .hero p { margin: 0; color: var(--ink-2); }
+  .panel { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; margin-bottom: 14px; }
+  .panel h2 { font-size: 16px; margin: 0 0 10px; }
+  .panel p.hint { margin: 6px 0 0; font-size: 13px; color: var(--ink-3); }
+  label.field { display: block; margin-bottom: 12px; }
+  label.field > span { display: block; font-size: 13px; color: var(--ink-2); margin-bottom: 5px; font-weight: 600; }
+  input[type=text], input[type=date], input[type=time], textarea {
+    width: 100%; border: 1.5px solid var(--line); background: #FFFCFA; border-radius: 12px;
+    padding: 11px 12px; outline: none; font-size: 16px;
+  }
+  input:focus, textarea:focus { border-color: var(--accent); background: #fff; }
+  textarea { resize: vertical; min-height: 64px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    border: 0; border-radius: 12px; padding: 12px 16px; font-weight: 700; font-size: 15px;
+    background: var(--accent); color: #fff; min-height: 46px;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn[disabled] { opacity: .5; }
+  .btn.block { width: 100%; }
+  .btn.ghost { background: var(--accent-soft); color: var(--accent-2); }
+  .btn.plain { background: #F4EEEA; color: var(--ink-2); }
+  .btn.danger { background: #FBE3E0; color: #B3261E; }
+  .row { display: flex; gap: 8px; align-items: center; }
+  .row > * { flex: 1; }
+  .code-input { text-transform: uppercase; letter-spacing: 2px; font-weight: 700; text-align: center; }
+  .setup-error { color: #B3261E; font-size: 14px; margin: 8px 0 0; white-space: pre-line; }
+
+  /* ---------- 위쪽 */
+  header.top {
+    position: sticky; top: 0; z-index: 5; background: rgba(255, 247, 243, .94);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+  }
+  .top-bar { display: flex; align-items: center; gap: 10px; padding: 12px 0 8px; }
+  .top-bar h1 { flex: 1; margin: 0; font-size: 20px; letter-spacing: -.4px; display: flex; align-items: center; gap: 8px; }
+  .top-bar h1 img { width: 28px; height: 28px; border-radius: 8px; }
+  .icon-btn { width: 40px; height: 40px; border-radius: 12px; border: 0; background: #F6ECE6; font-size: 19px; display: grid; place-items: center; }
+  .search { margin-bottom: 8px; }
+  .search input { padding: 9px 12px; font-size: 15px; background: #fff; }
+  .tabs { display: flex; gap: 6px; padding-bottom: 10px; overflow-x: auto; }
+  .tab {
+    border: 0; border-radius: 999px; padding: 7px 14px; background: #F4EAE4; color: var(--ink-2);
+    font-weight: 700; font-size: 14px; white-space: nowrap;
+  }
+  .tab.on { background: var(--ink); color: #fff; }
+  .tab .n { opacity: .7; margin-left: 3px; font-weight: 600; }
+
+  /* ---------- 기프티콘 목록 */
+  main { padding: 14px 0 calc(110px + var(--safe-b)); }
+  .notice { background: var(--warn-soft); color: #8A4B05; border-radius: 12px; padding: 10px 12px; font-size: 14px; margin-bottom: 12px; }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  @media (min-width: 560px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .card {
+    position: relative; background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+    overflow: hidden; display: flex; flex-direction: column; border: 0; padding: 0; text-align: left;
+  }
+  .thumb { position: relative; aspect-ratio: 3 / 4; background: #F3ECE8; overflow: hidden; }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transition: filter .25s, opacity .25s; }
+  .meta { padding: 9px 10px 11px; min-height: 64px; }
+  .meta b { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 14px; line-height: 1.35; word-break: keep-all; overflow-wrap: anywhere; }
+  .meta small { display: block; margin-top: 3px; color: var(--ink-3); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .dday {
+    position: absolute; left: 8px; top: 8px; font-size: 12px; font-weight: 800; padding: 3px 8px; border-radius: 999px;
+    background: rgba(255, 255, 255, .92); color: var(--ink-2); box-shadow: 0 1px 4px rgba(0, 0, 0, .12);
+  }
+  .dday.soon { background: var(--accent); color: #fff; }
+  .dday.near { background: var(--warn); color: #fff; }
+  .dday.over { background: #6E6460; color: #fff; }
+  .check {
+    position: absolute; right: 8px; top: 8px; width: 38px; height: 38px; border-radius: 50%;
+    border: 2.5px solid #fff; background: rgba(0, 0, 0, .28); color: #fff; font-size: 19px; font-weight: 900;
+    display: grid; place-items: center; box-shadow: 0 1px 6px rgba(0, 0, 0, .25);
+  }
+  .check::after { content: '✓'; opacity: .45; }
+  /* 사용 완료: 흑백 + 「사용완료」 도장 */
+  .card.used .thumb img, .viewer.used .viewer-img img { filter: grayscale(1) contrast(.9); opacity: .55; }
+  .card.used .meta b, .card.used .meta small { color: var(--ink-3); }
+  .card.used .meta b { text-decoration: line-through; text-decoration-color: rgba(0, 0, 0, .25); }
+  .card.used .check { background: var(--ok); border-color: var(--ok); }
+  .card.used .check::after { opacity: 1; }
+  .card.used .dday { display: none; }
+  .stamp {
+    display: none; position: absolute; left: 50%; top: 46%; transform: translate(-50%, -50%) rotate(-14deg);
+    border: 3.5px solid #4A4441; color: #4A4441; border-radius: 10px; padding: 4px 12px; font-weight: 900;
+    font-size: 21px; letter-spacing: 2px; background: rgba(255, 255, 255, .78); white-space: nowrap;
+  }
+  .card.used .stamp, .viewer.used .stamp { display: block; }
+  .card.expired:not(.used) .thumb img { opacity: .75; }
+  .empty { text-align: center; color: var(--ink-3); padding: 50px 10px; }
+  .empty .big { font-size: 44px; }
+
+  .fab {
+    position: fixed; right: max(18px, calc(50% - 342px)); bottom: calc(20px + var(--safe-b)); z-index: 6;
+    border: 0; border-radius: 999px; background: var(--accent); color: #fff; font-weight: 800; font-size: 16px;
+    padding: 15px 20px; box-shadow: 0 6px 18px rgba(228, 96, 78, .45); display: flex; align-items: center; gap: 6px;
+  }
+
+  /* ---------- 아래에서 올라오는 창 */
+  .sheet-back { position: fixed; inset: 0; background: rgba(30, 20, 15, .45); z-index: 20; display: flex; align-items: flex-end; justify-content: center; }
+  .sheet {
+    background: var(--bg); width: 100%; max-width: 640px; max-height: 94vh; overflow-y: auto;
+    border-radius: 20px 20px 0 0; padding: 8px 16px calc(18px + var(--safe-b));
+  }
+  .sheet-head { display: flex; align-items: center; gap: 8px; position: sticky; top: -8px; background: var(--bg); padding: 10px 0; z-index: 1; }
+  .sheet-head h2 { flex: 1; margin: 0; font-size: 18px; }
+  .edit-img { display: flex; justify-content: center; background: #F1E9E4; border-radius: 14px; padding: 8px; margin-bottom: 12px; }
+  .edit-img img { max-height: 34vh; max-width: 100%; border-radius: 8px; }
+  .ocr-state { font-size: 13px; color: var(--ink-2); background: var(--accent-soft); border-radius: 10px; padding: 8px 10px; margin-bottom: 12px; }
+  .ocr-state.done { background: #E3F3EA; color: #24603F; }
+  .ocr-state.fail { background: #F4EEEA; color: var(--ink-2); }
+  .sheet-actions { display: flex; gap: 8px; margin-top: 6px; }
+  .sheet-actions .btn { flex: 1; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { border: 1.5px solid var(--line); background: #fff; border-radius: 999px; padding: 6px 12px; font-size: 14px; font-weight: 600; color: var(--ink-2); }
+  .chip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .switch-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
+  .switch-row > span { flex: 1; }
+  .switch-row small { display: block; color: var(--ink-3); font-size: 12px; }
+  .switch { position: relative; width: 50px; height: 30px; flex: none; }
+  .switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+  .switch i { position: absolute; inset: 0; background: #DCD2CC; border-radius: 999px; transition: background .2s; }
+  .switch i::after { content: ''; position: absolute; left: 3px; top: 3px; width: 24px; height: 24px; background: #fff; border-radius: 50%; transition: transform .2s; box-shadow: 0 1px 3px rgba(0, 0, 0, .2); }
+  .switch input:checked + i { background: var(--accent); }
+  .switch input:checked + i::after { transform: translateX(20px); }
+  .code-box { font-size: 22px; font-weight: 900; letter-spacing: 2px; text-align: center; background: #fff; border: 2px dashed var(--accent); border-radius: 14px; padding: 12px; margin: 6px 0 10px; user-select: all; }
+  .push-status { font-size: 13px; margin: 4px 0 6px; color: var(--ink-2); }
+  .push-status.bad { color: #B3261E; }
+  .push-status.good { color: #24603F; }
+  .members { color: var(--ink-2); font-size: 14px; }
+
+  /* ---------- 크게 보기 */
+  .viewer { position: fixed; inset: 0; z-index: 15; background: #1E1917; color: #fff; display: flex; flex-direction: column; }
+  .viewer-top { display: flex; align-items: center; gap: 8px; padding: 10px 12px; }
+  .viewer-top .t { flex: 1; min-width: 0; }
+  .viewer-top b { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 16px; }
+  .viewer-top small { color: #CDBFB8; font-size: 13px; }
+  .viewer .icon-btn { background: rgba(255, 255, 255, .12); color: #fff; }
+  .viewer-img { position: relative; flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; overflow: auto; background: #fff; }
+  .viewer-img img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+  .viewer-img .loading { color: var(--ink-3); }
+  .viewer-img .stamp { font-size: 34px; }
+  .viewer-memo { padding: 8px 14px 0; color: #E8DCD6; font-size: 14px; white-space: pre-wrap; }
+  .viewer-actions { display: flex; gap: 8px; padding: 10px 12px calc(12px + var(--safe-b)); }
+  .viewer-actions .btn { flex: 1; padding: 12px 8px; font-size: 14px; }
+  .viewer-actions .btn.use { flex: 2; }
+  .viewer .btn.plain { background: rgba(255, 255, 255, .14); color: #fff; }
+  .viewer .btn.use.undo { background: rgba(255, 255, 255, .9); color: var(--ink); }
+
+  /* ---------- 알림 상자 */
+  .toast {
+    position: fixed; left: 50%; bottom: calc(90px + var(--safe-b)); transform: translateX(-50%); z-index: 40;
+    background: #2A2320; color: #fff; border-radius: 12px; padding: 11px 14px; font-size: 14px;
+    max-width: calc(100% - 32px); display: flex; align-items: center; gap: 12px; box-shadow: 0 6px 20px rgba(0, 0, 0, .25);
+  }
+  .toast button { border: 0; background: none; color: #FFB4A8; font-weight: 800; padding: 0; white-space: nowrap; }
+  .dialog-back { position: fixed; inset: 0; z-index: 30; background: rgba(30, 20, 15, .5); display: flex; align-items: center; justify-content: center; padding: 16px; }
+  .dialog { background: #fff; border-radius: 18px; padding: 20px 18px 14px; width: 100%; max-width: 360px; }
+  .dialog p { margin: 0 0 16px; white-space: pre-line; }
+  .dialog .row .btn { flex: 1; }
+  .busy { position: fixed; inset: 0; z-index: 35; background: rgba(255, 247, 243, .7); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--ink-2); }
+</style>
+</head>
+<body>
+
+<!-- 처음: 기프티콘함 만들기 / 초대 코드로 들어가기 -->
+<section id="screen-setup" class="wrap hidden">
+  <div class="hero">
+    <img src="icon-192.png" alt="">
+    <h1>우리 기프티콘</h1>
+    <p>둘이 받은 기프티콘을 한곳에 모아요.<br>쓴 건 체크하면 흑백으로 정리돼요.</p>
+  </div>
+  <div class="panel">
+    <label class="field"><span>내 이름 (상대에게 보여요)</span>
+      <input type="text" id="setup-name" maxlength="20" placeholder="예: 지우" autocomplete="nickname">
+    </label>
+  </div>
+  <div class="panel">
+    <h2>💌 초대 코드가 있어요</h2>
+    <div class="row">
+      <input type="text" id="setup-code" class="code-input" maxlength="24" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="off" autocapitalize="characters" spellcheck="false">
+    </div>
+    <button class="btn block" id="btn-join" style="margin-top:10px">들어가기</button>
+    <p class="hint">상대가 보낸 초대 링크를 눌렀다면 코드가 이미 채워져 있어요.</p>
+  </div>
+  <div class="panel">
+    <h2>🎁 처음 시작해요</h2>
+    <button class="btn ghost block" id="btn-create">새 기프티콘함 만들기</button>
+    <p class="hint">만든 뒤 초대 코드를 연인에게 보내면 함께 쓸 수 있어요.</p>
+  </div>
+  <p class="setup-error" id="setup-error"></p>
+</section>
+
+<!-- 기프티콘함 -->
+<section id="screen-main" class="hidden">
+  <header class="top">
+    <div class="wrap">
+      <div class="top-bar">
+        <h1><img src="icon-192.png" alt="">우리 기프티콘</h1>
+        <button class="icon-btn" id="btn-settings" aria-label="설정">⚙️</button>
+      </div>
+      <div class="search"><input type="text" id="search" placeholder="🔍 이름·브랜드로 찾기" autocomplete="off"></div>
+      <div class="tabs" role="tablist">
+        <button class="tab on" data-tab="active">사용 가능<span class="n" id="n-active"></span></button>
+        <button class="tab" data-tab="used">사용 완료<span class="n" id="n-used"></span></button>
+        <button class="tab" data-tab="all">전체<span class="n" id="n-all"></span></button>
+      </div>
+    </div>
+  </header>
+  <main class="wrap">
+    <div class="notice hidden" id="soon-notice"></div>
+    <div class="grid" id="grid"></div>
+    <div class="empty hidden" id="empty"></div>
+  </main>
+  <button class="fab" id="btn-add">＋ 기프티콘 추가</button>
+  <input type="file" id="file-input" accept="image/*" multiple hidden>
+</section>
+
+<!-- 추가·수정 -->
+<div class="sheet-back hidden" id="edit-sheet">
+  <div class="sheet">
+    <div class="sheet-head">
+      <h2 id="edit-title">기프티콘 추가</h2>
+      <button class="icon-btn" data-close="edit" aria-label="닫기">✕</button>
+    </div>
+    <div class="edit-img"><img id="edit-img" alt=""></div>
+    <div class="ocr-state hidden" id="ocr-state"></div>
+    <label class="field"><span>이름</span><input type="text" id="f-name" maxlength="60" placeholder="예: 카페 아메리카노 T"></label>
+    <label class="field"><span>브랜드 · 교환처</span><input type="text" id="f-brand" maxlength="30" placeholder="예: 스타벅스"></label>
+    <label class="field"><span>유효기간 (마지막 날)</span><input type="date" id="f-expiry"></label>
+    <label class="field"><span>메모</span><textarea id="f-memo" maxlength="300" placeholder="예: 생일 선물로 받은 것"></textarea></label>
+    <div class="sheet-actions">
+      <button class="btn plain hidden" id="btn-skip">건너뛰기</button>
+      <button class="btn" id="btn-save">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- 크게 보기 -->
+<div class="viewer hidden" id="viewer">
+  <div class="viewer-top">
+    <button class="icon-btn" data-close="viewer" aria-label="닫기">✕</button>
+    <div class="t"><b id="v-name"></b><small id="v-sub"></small></div>
+    <button class="icon-btn" id="v-edit" aria-label="고치기">✏️</button>
+  </div>
+  <div class="viewer-img" id="v-img-box"><span class="loading" id="v-loading">이미지를 불러오는 중…</span><img id="v-img" alt=""><span class="stamp">사용완료</span></div>
+  <div class="viewer-memo" id="v-memo"></div>
+  <div class="viewer-actions">
+    <button class="btn plain" id="v-save">⤓ 저장</button>
+    <button class="btn plain" id="v-delete">🗑 삭제</button>
+    <button class="btn use" id="v-use">✓ 사용 완료</button>
+  </div>
+</div>
+
+<!-- 설정 -->
+<div class="sheet-back hidden" id="settings-sheet">
+  <div class="sheet">
+    <div class="sheet-head">
+      <h2>설정</h2>
+      <button class="icon-btn" data-close="settings" aria-label="닫기">✕</button>
+    </div>
+    <div class="panel">
+      <label class="field"><span>내 이름</span><input type="text" id="s-name" maxlength="20"></label>
+      <div class="members" id="s-members"></div>
+    </div>
+    <div class="panel">
+      <h2>💌 초대 코드</h2>
+      <div class="code-box" id="s-code"></div>
+      <div class="row">
+        <button class="btn ghost" id="btn-share">초대 링크 보내기</button>
+        <button class="btn plain" id="btn-copy">코드 복사</button>
+      </div>
+      <p class="hint">이 코드를 아는 사람만 기프티콘을 볼 수 있어요. 연인에게만 보내 주세요.<br>휴대폰을 바꾸거나 앱을 지웠다면 이 코드로 다시 들어오면 돼요.</p>
+    </div>
+    <div class="panel">
+      <h2>🔔 알림</h2>
+      <div class="switch-row"><span>이 기기에서 알림 받기</span><label class="switch"><input type="checkbox" id="p-enabled"><i></i></label></div>
+      <div class="push-status" id="p-status"></div>
+      <div id="p-more">
+        <div class="switch-row"><span>새 기프티콘 · 사용 알림<small>상대가 기프티콘을 넣거나 썼을 때</small></span><label class="switch"><input type="checkbox" id="p-change"><i></i></label></div>
+        <div class="switch-row"><span>유효기간 알림<small>쓰지 않은 기프티콘의 기한이 다가올 때</small></span><label class="switch"><input type="checkbox" id="p-expiry"><i></i></label></div>
+        <div id="p-expiry-more">
+          <label class="field" style="margin-top:6px"><span>알림 받을 시각</span><input type="time" id="p-time" value="09:00"></label>
+          <span style="display:block;font-size:13px;color:var(--ink-2);font-weight:600;margin-bottom:6px">언제 알려 줄까요? (여러 개 고를 수 있어요)</span>
+          <div class="chips" id="p-leads"></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <button class="btn danger block" id="btn-leave">이 기기에서 기프티콘함 나가기</button>
+      <p class="hint">나가도 기프티콘은 지워지지 않아요. 초대 코드로 다시 들어올 수 있어요.</p>
+    </div>
+  </div>
+</div>
+
+<div class="dialog-back hidden" id="dialog">
+  <div class="dialog">
+    <p id="dialog-text"></p>
+    <div class="row"><button class="btn plain" id="dialog-no">취소</button><button class="btn" id="dialog-yes">확인</button></div>
+  </div>
+</div>
+<div class="busy hidden" id="busy"></div>
+<div class="toast hidden" id="toast"><span id="toast-text"></span><button id="toast-action" class="hidden"></button></div>
+
+<script src="ocr-parse.js"></script>
+<script type="module">
+/* =====================================================================
+   우리 기프티콘
+   - 기록은 Firebase(jaeyeon-life) Firestore giftrooms/{방}/…, 이미지도 Firestore 안에만 담는다
+     (공개 주소가 생기는 사진 저장소를 쓰지 않음).
+   - 익명 로그인 + 초대 코드: 코드로 들어온 기기(members/{uid})만 읽고 쓸 수 있다(규칙은 our-firebase).
+   - 초대 코드 16글자 = 방 번호 8글자 + 비밀 8글자.
+   - 이름·브랜드·유효기간은 이미지 글자를 읽어(OCR, tesseract.js) 채운다 — 규칙은 ocr-parse.js.
+   ===================================================================== */
+const FIREBASE_CONFIG = {
+  apiKey: 'AIzaSyCXfKiu_ckkePfdPBOL8NkUNvpTD9DGisU',
+  authDomain: 'jaeyeon-life.firebaseapp.com',
+  projectId: 'jaeyeon-life',
+  storageBucket: 'jaeyeon-life.firebasestorage.app',
+  messagingSenderId: '1085807433548',
+  appId: '1:1085807433548:web:36ae02c4b357e8ea23e1e9'
+};
+const FIREBASE_VERSION = '10.14.1';
+/* Firebase 콘솔 → 프로젝트 설정 → 클라우드 메시징 → 웹 푸시 인증서(공개 키) — 캘린더·사진첩과 같은 키 */
+const VAPID_KEY = 'BA6nKAfzBNESVi8eF5TW9RFwG5uU0RsJMscXyXNLe5SmN49g78AL7CJc31cO9sEggTQAo_2baLhU01x-Wx-humU';
+const TESSERACT_URL = 'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';
+const APP_URL = 'https://cheesebyte99.github.io/our-gifticons/';
+const COL = 'giftrooms';
+const CODE_ABC = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // 헷갈리는 I·O·0·1 은 뺐다
+
+const K_ROOM = 'gift_room';
+const K_NAME = 'gift_name';
+const K_DEVICE = 'gift_device_id';
+const K_PUSH = 'gift_push';
+const K_TAB = 'gift_tab';
+
+const LEAD_CHOICES = [[0, '당일'], [1, '하루 전'], [3, '3일 전'], [7, '일주일 전'], [14, '2주 전'], [30, '한 달 전']];
+const MAX_IMAGE = 950000;
+const MAX_THUMB = 110000;
+
+const $ = (id) => document.getElementById(id);
+
+/* ---------------------------------------------------------------- 작은 도구 */
+function store(key, value) {
+  try {
+    if (value === undefined) return localStorage.getItem(key);
+    if (value === null) localStorage.removeItem(key); else localStorage.setItem(key, value);
+  } catch (e) {}
+  return null;
+}
+function randomId(n, abc) {
+  const chars = abc || 'abcdefghijklmnopqrstuvwxyz0123456789';
+  const buf = new Uint32Array(n);
+  crypto.getRandomValues(buf);
+  let s = '';
+  for (let i = 0; i < n; i++) s += chars[buf[i] % chars.length];
+  return s;
+}
+function deviceId() {
+  let id = store(K_DEVICE);
+  if (!id || !/^[A-Za-z0-9_-]{8,64}$/.test(id)) { id = 'dev-' + randomId(16); store(K_DEVICE, id); }
+  return id;
+}
+function oneLine(s, max) { return String(s || '').replace(/\s+/g, ' ').trim().slice(0, max); }
+function pad(n) { return (n < 10 ? '0' : '') + n; }
+function todayKey() { const d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+function daysBetween(a, b) {
+  const t = (k) => Date.UTC(+k.slice(0, 4), +k.slice(5, 7) - 1, +k.slice(8, 10));
+  return Math.round((t(b) - t(a)) / 86400000);
+}
+const WD = ['일', '월', '화', '수', '목', '금', '토'];
+function prettyDate(k) {
+  if (!k) return '';
+  const d = new Date(Date.UTC(+k.slice(0, 4), +k.slice(5, 7) - 1, +k.slice(8, 10)));
+  const thisYear = new Date().getFullYear() === d.getUTCFullYear();
+  return (thisYear ? '' : d.getUTCFullYear() + '. ') + (d.getUTCMonth() + 1) + '. ' + d.getUTCDate() + '(' + WD[d.getUTCDay()] + ')';
+}
+function formatCode(c) { return String(c || '').replace(/(.{4})(?=.)/g, '$1-'); }
+function normalizeCode(s) {
+  const raw = String(s || '');
+  const m = /[?&]join=([A-Za-z0-9-]+)/.exec(raw);
+  return (m ? m[1] : raw).toUpperCase().replace(/[^A-Z0-9]/g, '');
+}
+function isAndroidApp() { return !!(window.AndroidApp && typeof window.AndroidApp.share === 'function'); }
+function isIOS() { return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); }
+function isStandalone() { return window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true; }
+
+let toastTimer = 0;
+function toast(text, action, onAction) {
+  $('toast-text').textContent = text;
+  const b = $('toast-action');
+  b.classList.toggle('hidden', !action);
+  b.textContent = action || '';
+  b.onclick = () => { hide(); if (onAction) onAction(); };
+  $('toast').classList.remove('hidden');
+  clearTimeout(toastTimer);
+  function hide() { $('toast').classList.add('hidden'); }
+  toastTimer = setTimeout(hide, action ? 5000 : 2600);
+}
+function ask(text, yes, danger) {
+  return new Promise((resolve) => {
+    $('dialog-text').textContent = text;
+    $('dialog-yes').textContent = yes || '확인';
+    $('dialog-yes').className = 'btn' + (danger ? ' danger' : '');
+    $('dialog').classList.remove('hidden');
+    const done = (v) => { $('dialog').classList.add('hidden'); dialogDone = null; resolve(v); };
+    dialogDone = done;
+    $('dialog-yes').onclick = () => done(true);
+    $('dialog-no').onclick = () => done(false);
+  });
+}
+let dialogDone = null;
+function busy(text) {
+  $('busy').textContent = text || '';
+  $('busy').classList.toggle('hidden', !text);
+}
+function errText(err) {
+  const code = String((err && err.code) || '');
+  const msg = String((err && err.message) || err || '');
+  if (code.includes('operation-not-allowed') || code.includes('admin-restricted')) {
+    return 'Firebase 에서 「익명 로그인」이 아직 꺼져 있어요.\nFirebase 콘솔 → Authentication → 로그인 방법 → 익명 을 켜 주세요.';
+  }
+  if (code.includes('network') || code.includes('unavailable') || !navigator.onLine) return '인터넷 연결을 확인해 주세요.';
+  if (code.includes('permission-denied')) return '권한이 없어요. 초대 코드를 다시 확인해 주세요.';
+  if (code.includes('resource-exhausted')) return '오늘 쓸 수 있는 양을 넘었어요. 잠시 뒤에 다시 해 주세요.';
+  return msg || '알 수 없는 오류가 났어요.';
+}
+
+/* ---------------------------------------------------------------- Firebase */
+const fb = { ready: null, uid: '', db: null, fs: null, auth: null, app: null };
+
+function loadFirebase() {
+  if (fb.ready) return fb.ready;
+  const base = 'https://www.gstatic.com/firebasejs/' + FIREBASE_VERSION + '/';
+  fb.ready = (async () => {
+    const [appMod, authMod, fsMod] = await Promise.all([
+      import(base + 'firebase-app.js'), import(base + 'firebase-auth.js'), import(base + 'firebase-firestore.js')
+    ]);
+    const app = appMod.getApps().length ? appMod.getApp() : appMod.initializeApp(FIREBASE_CONFIG);
+    let auth;
+    try {
+      auth = authMod.initializeAuth(app, { persistence: [authMod.indexedDBLocalPersistence, authMod.browserLocalPersistence] });
+    } catch (e) { auth = authMod.getAuth(app); }
+    let db;
+    try {
+      // 매장에서 인터넷이 약해도 기프티콘을 열 수 있게 기기에 담아 둔다
+      db = fsMod.initializeFirestore(app, {
+        localCache: fsMod.persistentLocalCache({ tabManager: fsMod.persistentMultipleTabManager(), cacheSizeBytes: 200 * 1024 * 1024 })
+      });
+    } catch (e) { db = fsMod.getFirestore(app); }
+    const user = await new Promise((resolve) => {
+      const off = authMod.onAuthStateChanged(auth, (u) => { off(); resolve(u); });
+    });
+    fb.uid = user ? user.uid : (await authMod.signInAnonymously(auth)).user.uid;
+    Object.assign(fb, { app, auth, db, fs: fsMod });
+    return fb;
+  })();
+  fb.ready.catch(() => { fb.ready = null; });
+  return fb.ready;
+}
+const ref = {
+  room: (r) => fb.fs.doc(fb.db, COL, r),
+  member: (r, u) => fb.fs.doc(fb.db, COL, r, 'members', u),
+  members: (r) => fb.fs.collection(fb.db, COL, r, 'members'),
+  items: (r) => fb.fs.collection(fb.db, COL, r, 'items'),
+  item: (r, id) => fb.fs.doc(fb.db, COL, r, 'items', id),
+  image: (r, id) => fb.fs.doc(fb.db, COL, r, 'images', id),
+  device: (r) => fb.fs.doc(fb.db, COL, r, 'devices', deviceId())
+};
+
+/* ---------------------------------------------------------------- 상태 */
+const state = {
+  room: '', code: '', name: store(K_NAME) || '',
+  items: [], tab: store(K_TAB) || 'active', query: '',
+  unsub: null, images: new Map(), viewing: null
+};
+
+/* ---------------------------------------------------------------- 처음 화면 */
+function showSetup(message) {
+  $('screen-main').classList.add('hidden');
+  $('screen-setup').classList.remove('hidden');
+  $('setup-name').value = state.name;
+  $('setup-error').textContent = message || '';
+}
+function setupName() {
+  const n = oneLine($('setup-name').value, 20);
+  if (!n) { $('setup-error').textContent = '내 이름을 먼저 적어 주세요.'; $('setup-name').focus(); return ''; }
+  state.name = n;
+  store(K_NAME, n);
+  return n;
+}
+
+async function createRoom() {
+  const name = setupName();
+  if (!name) return;
+  busy('기프티콘함을 만드는 중…');
+  try {
+    await loadFirebase();
+    const room = randomId(8, CODE_ABC);
+    const code = room + randomId(8, CODE_ABC);
+    const now = fb.fs.Timestamp.now();
+    const b = fb.fs.writeBatch(fb.db);
+    b.set(ref.room(room), { code, owner: fb.uid, createdAt: now, updatedAt: now });
+    b.set(ref.member(room, fb.uid), { code, name, joinedAt: now });
+    await b.commit();
+    store(K_ROOM, room);
+    await enterRoom(room);
+    openSettings();
+    toast('만들었어요! 초대 링크를 연인에게 보내 주세요 💌');
+  } catch (e) {
+    showSetup(errText(e));
+  } finally { busy(''); }
+}
+
+async function joinRoom() {
+  const name = setupName();
+  if (!name) return;
+  const code = normalizeCode($('setup-code').value);
+  if (!/^[A-Z2-9]{16}$/.test(code)) { $('setup-error').textContent = '초대 코드 16글자를 확인해 주세요.'; return; }
+  busy('들어가는 중…');
+  try {
+    await loadFirebase();
+    const room = code.slice(0, 8);
+    try {
+      await fb.fs.setDoc(ref.member(room, fb.uid), { code, name, joinedAt: fb.fs.Timestamp.now() });
+    } catch (e) {
+      if (String(e && e.code).includes('permission-denied')) throw Object.assign(new Error('초대 코드가 맞지 않아요. 다시 확인해 주세요.'), { code: 'bad-code' });
+      throw e;
+    }
+    store(K_ROOM, room);
+    history.replaceState(null, '', location.pathname);
+    await enterRoom(room);
+    toast('함께하는 기프티콘함에 들어왔어요 🎁');
+  } catch (e) {
+    showSetup(e.code === 'bad-code' ? e.message : errText(e));
+  } finally { busy(''); }
+}
+
+/* ---------------------------------------------------------------- 방 */
+async function enterRoom(room) {
+  await loadFirebase();
+  const snap = await fb.fs.getDoc(ref.room(room)); // 회원이 아니면 여기서 permission-denied
+  if (!snap.exists()) throw Object.assign(new Error('없는 기프티콘함이에요'), { code: 'not-found' });
+  state.room = room;
+  state.code = snap.get('code') || '';
+  $('screen-setup').classList.add('hidden');
+  $('screen-main').classList.remove('hidden');
+  if (state.unsub) state.unsub();
+  state.unsub = fb.fs.onSnapshot(ref.items(room), (qs) => {
+    state.items = qs.docs.map((d) => Object.assign({ id: d.id }, d.data()));
+    render();
+    prefetchImages();
+    if (state.viewing) {
+      const it = state.items.find((x) => x.id === state.viewing);
+      if (it) fillViewer(it); else closeViewer();
+    }
+  }, (err) => toast(errText(err)));
+  refreshPush(false);
+  takeSharedImages();
+}
+
+/* 안드로이드 앱: 카카오톡 등에서 「공유 → 우리 기프티콘」으로 보낸 이미지 */
+async function takeSharedImages() {
+  if (!state.room || !window.AndroidApp || typeof window.AndroidApp.takeSharedImages !== 'function') return;
+  let urls = [];
+  try { urls = JSON.parse(window.AndroidApp.takeSharedImages() || '[]'); } catch (e) { urls = []; }
+  if (!urls.length) return;
+  const files = [];
+  for (let i = 0; i < urls.length; i++) {
+    try {
+      const blob = await (await fetch(urls[i])).blob();
+      files.push(new File([blob], 'shared-' + i + '.jpg', { type: blob.type || 'image/jpeg' }));
+    } catch (e) {}
+  }
+  closeViewer();
+  closeSettings();
+  addFiles(files);
+}
+window.__onSharedImages = takeSharedImages;
+
+async function start() {
+  const params = new URLSearchParams(location.search);
+  const join = normalizeCode(params.get('join') || '');
+  const saved = store(K_ROOM);
+  if (join && (!saved || join.slice(0, 8) !== saved)) {
+    showSetup('');
+    $('setup-code').value = formatCode(join);
+    if (!state.name) $('setup-name').focus();
+    loadFirebase().catch((e) => showSetup(errText(e)));
+    return;
+  }
+  if (!saved) { showSetup(''); loadFirebase().catch((e) => showSetup(errText(e))); return; }
+  try {
+    await enterRoom(saved);
+    if (join) history.replaceState(null, '', location.pathname);
+  } catch (e) {
+    const c = String(e && e.code);
+    if (c.includes('permission-denied') || c.includes('not-found')) {
+      store(K_ROOM, null);
+      showSetup('이 기기는 기프티콘함에서 나와 있어요. 초대 코드로 다시 들어와 주세요.');
+    } else {
+      showSetup(errText(e));
+    }
+  }
+}
+
+/* ---------------------------------------------------------------- 목록 */
+function ddayInfo(it, today) {
+  if (!it.expiry) return null;
+  const d = daysBetween(today, it.expiry);
+  if (d < 0) return { text: '기간 만료', cls: 'over', d };
+  if (d === 0) return { text: 'D-DAY', cls: 'soon', d };
+  return { text: 'D-' + d, cls: d <= 3 ? 'soon' : d <= 7 ? 'near' : '', d };
+}
+function sortActive(a, b, today) {
+  const ax = a.expiry && a.expiry < today ? 1 : 0;
+  const bx = b.expiry && b.expiry < today ? 1 : 0;
+  if (ax !== bx) return ax - bx; // 기간 지난 것은 뒤로
+  const ae = a.expiry || '9999-99-99';
+  const be = b.expiry || '9999-99-99';
+  if (ae !== be) return ae < be ? -1 : 1; // 기한 가까운 것부터
+  return stampMs(b.createdAt) - stampMs(a.createdAt);
+}
+function stampMs(t) { return t && typeof t.toMillis === 'function' ? t.toMillis() : 0; }
+function label(it) {
+  const name = (it.name || '').trim();
+  const brand = (it.brand || '').trim();
+  return name || brand || '기프티콘';
+}
+function esc(s) { return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+
+function render() {
+  const today = todayKey();
+  const q = state.query.toLowerCase().replace(/\s+/g, '');
+  const match = (it) => !q || ((it.name || '') + (it.brand || '') + (it.memo || '')).toLowerCase().replace(/\s+/g, '').includes(q);
+  const active = state.items.filter((it) => !it.used).sort((a, b) => sortActive(a, b, today));
+  const used = state.items.filter((it) => it.used).sort((a, b) => stampMs(b.usedAt || b.updatedAt) - stampMs(a.usedAt || a.updatedAt));
+  $('n-active').textContent = active.length;
+  $('n-used').textContent = used.length;
+  $('n-all').textContent = state.items.length;
+  document.querySelectorAll('.tab').forEach((t) => t.classList.toggle('on', t.dataset.tab === state.tab));
+
+  const soon = active.filter((it) => { const i = ddayInfo(it, today); return i && i.d >= 0 && i.d <= 7; });
+  $('soon-notice').classList.toggle('hidden', !soon.length || state.tab === 'used');
+  if (soon.length) $('soon-notice').textContent = '⏰ 일주일 안에 기한이 끝나는 기프티콘이 ' + soon.length + '개 있어요.';
+
+  const list = (state.tab === 'active' ? active : state.tab === 'used' ? used : active.concat(used)).filter(match);
+  const grid = $('grid');
+  grid.innerHTML = list.map((it) => {
+    const dd = ddayInfo(it, today);
+    const sub = [it.brand, it.expiry ? '~' + prettyDate(it.expiry) : ''].filter(Boolean).join(' · ');
+    const cls = 'card' + (it.used ? ' used' : '') + (dd && dd.d < 0 ? ' expired' : '');
+    return '<div class="' + cls + '" data-id="' + esc(it.id) + '" role="button" tabindex="0">' +
+      '<div class="thumb">' + (it.thumb ? '<img src="' + esc(it.thumb) + '" alt="" loading="lazy">' : '') +
+      (dd ? '<span class="dday ' + dd.cls + '">' + dd.text + '</span>' : '') +
+      '<span class="stamp">사용완료</span>' +
+      '<button class="check" data-check="' + esc(it.id) + '" aria-label="' + (it.used ? '사용 전으로 되돌리기' : '사용 완료로 표시') + '"></button></div>' +
+      '<div class="meta"><b>' + esc(label(it)) + '</b><small>' + esc(sub || (it.used && it.usedBy ? it.usedBy + ' 사용' : ' ')) + '</small></div></div>';
+  }).join('');
+  const empty = $('empty');
+  empty.classList.toggle('hidden', list.length > 0);
+  if (!list.length) {
+    empty.innerHTML = q ? '<div class="big">🔍</div>찾는 기프티콘이 없어요.'
+      : state.tab === 'used' ? '<div class="big">🧾</div>아직 쓴 기프티콘이 없어요.<br>쓴 기프티콘의 ○ 를 누르면 여기로 와요.'
+      : '<div class="big">🎁</div>기프티콘이 없어요.<br>아래 「＋ 기프티콘 추가」로 캡처한 이미지를 올려 보세요.';
+  }
+}
+
+/* ---------------------------------------------------------------- 저장 */
+const ITEM_KEYS = ['name', 'brand', 'expiry', 'used', 'usedAt', 'usedBy', 'memo', 'thumb', 'author', 'createdAt'];
+function itemPayload(it, changes) {
+  const merged = Object.assign({}, it, changes);
+  const out = {};
+  for (const k of ITEM_KEYS) {
+    const v = merged[k];
+    if (v === undefined || v === null || v === '') continue;
+    out[k] = v;
+  }
+  out.name = oneLine(merged.name, 60);
+  out.used = merged.used === true;
+  if (!out.used) { delete out.usedAt; delete out.usedBy; }
+  out.thumb = merged.thumb || '';
+  out.editedBy = deviceId();
+  out.editor = oneLine(state.name, 20);
+  out.updatedAt = fb.fs.Timestamp.now();
+  if (!out.createdAt) out.createdAt = out.updatedAt;
+  return out;
+}
+
+async function setUsed(id, used, fromViewer) {
+  const it = state.items.find((x) => x.id === id);
+  if (!it) return;
+  const changes = used ? { used: true, usedAt: fb.fs.Timestamp.now(), usedBy: oneLine(state.name, 20) } : { used: false };
+  try {
+    const p = fb.fs.setDoc(ref.item(state.room, id), itemPayload(it, changes));
+    if (used) toast('「' + label(it) + '」 사용 완료로 표시했어요', '되돌리기', () => setUsed(id, false));
+    else if (!fromViewer) toast('사용 전으로 되돌렸어요');
+    await p;
+  } catch (e) { toast(errText(e)); }
+}
+
+async function deleteItem(id) {
+  const it = state.items.find((x) => x.id === id);
+  if (!it) return;
+  if (!(await ask('「' + label(it) + '」를 지울까요?\n상대의 기프티콘함에서도 지워져요.', '지우기', true))) return;
+  try {
+    const b = fb.fs.writeBatch(fb.db);
+    b.delete(ref.item(state.room, id));
+    b.delete(ref.image(state.room, id));
+    closeViewer();
+    await b.commit();
+    toast('지웠어요');
+  } catch (e) { toast(errText(e)); }
+}
+
+/* ---------------------------------------------------------------- 이미지 */
+async function fileToCanvasSource(file) {
+  if (window.createImageBitmap) {
+    try { return await createImageBitmap(file, { imageOrientation: 'from-image' }); } catch (e) {}
+  }
+  return await new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => { resolve(img); setTimeout(() => URL.revokeObjectURL(url), 1000); };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('이미지를 열지 못했어요')); };
+    img.src = url;
+  });
+}
+function srcSize(src) { return { w: src.naturalWidth || src.width, h: src.naturalHeight || src.height }; }
+function drawScaled(src, maxW, maxH, gray) {
+  const { w, h } = srcSize(src);
+  const s = Math.min(1, maxW / w, maxH / h);
+  const c = document.createElement('canvas');
+  c.width = Math.max(1, Math.round(w * s));
+  c.height = Math.max(1, Math.round(h * s));
+  const g = c.getContext('2d');
+  g.fillStyle = '#fff';
+  g.fillRect(0, 0, c.width, c.height);
+  if (gray) g.filter = 'grayscale(1) contrast(1.15)';
+  g.drawImage(src, 0, 0, c.width, c.height);
+  return c;
+}
+function toJpeg(src, maxW, maxH, limit, q0) {
+  let w = maxW, h = maxH, q = q0;
+  for (let i = 0; i < 12; i++) {
+    const url = drawScaled(src, w, h).toDataURL('image/jpeg', q);
+    if (url.length <= limit) return url;
+    if (q > 0.62) q -= 0.08; else { w = Math.round(w * 0.85); h = Math.round(h * 0.85); }
+  }
+  return drawScaled(src, 400, 900).toDataURL('image/jpeg', 0.6);
+}
+/* 글자 읽기용: 가로 1600px 쯤의 흑백이 가장 잘 읽힌다 */
+function ocrCanvas(src) {
+  const { w, h } = srcSize(src);
+  const s = Math.min(1600 / w, 4200 / h);
+  return drawScaled(src, w * s, h * s, true);
+}
+
+/* ---------------------------------------------------------------- 글자 읽기 (OCR) */
+let ocrWorker = null;
+function loadScript(url) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = url; s.onload = resolve; s.onerror = () => reject(new Error('글자 읽기 도구를 받지 못했어요'));
+    document.head.appendChild(s);
+  });
+}
+async function getOcr(onProgress) {
+  if (ocrWorker) return ocrWorker;
+  if (!window.Tesseract) await loadScript(TESSERACT_URL);
+  ocrWorker = window.Tesseract.createWorker(['kor', 'eng'], 1, {
+    logger: (m) => { if (ocrProgress) ocrProgress(m); }
+  });
+  ocrWorker.catch(() => { ocrWorker = null; });
+  return ocrWorker;
+}
+let ocrProgress = null;
+async function readGift(src, onProgress) {
+  ocrProgress = onProgress;
+  const worker = await getOcr();
+  const canvas = ocrCanvas(src);
+  const { data } = await worker.recognize(canvas);
+  ocrProgress = null;
+  const lines = (data.lines || []).map((l) => ({ text: l.text, top: l.bbox.y0, height: l.bbox.y1 - l.bbox.y0, conf: l.confidence }));
+  return window.GiftOcr.parse(lines, canvas.height, todayKey());
+}
+
+/* ---------------------------------------------------------------- 추가·수정 창 */
+const edit = { queue: [], index: 0, current: null, editingId: '', dirty: {}, token: 0 };
+
+function openEditSheet() { $('edit-sheet').classList.remove('hidden'); }
+function closeEdit() {
+  $('edit-sheet').classList.add('hidden');
+  edit.queue = []; edit.current = null; edit.editingId = ''; edit.token++;
+}
+function fillFields(v) {
+  $('f-name').value = v.name || '';
+  $('f-brand').value = v.brand || '';
+  $('f-expiry').value = v.expiry || '';
+  $('f-memo').value = v.memo || '';
+  edit.dirty = {};
+}
+function ocrState(text, cls) {
+  const s = $('ocr-state');
+  s.classList.toggle('hidden', !text);
+  s.className = 'ocr-state' + (cls ? ' ' + cls : '') + (text ? '' : ' hidden');
+  s.textContent = text || '';
+}
+
+async function addFiles(files) {
+  const list = Array.from(files || []).filter((f) => /^image\//.test(f.type) || /\.(jpe?g|png|webp|heic|gif)$/i.test(f.name));
+  if (!list.length) return;
+  edit.queue = list; edit.index = 0; edit.editingId = '';
+  openEditSheet();
+  nextInQueue();
+}
+
+async function nextInQueue() {
+  const token = ++edit.token;
+  if (edit.index >= edit.queue.length) { closeEdit(); return; }
+  const file = edit.queue[edit.index];
+  const total = edit.queue.length;
+  $('edit-title').textContent = '기프티콘 추가' + (total > 1 ? ' (' + (edit.index + 1) + '/' + total + ')' : '');
+  $('btn-skip').classList.toggle('hidden', total < 2);
+  $('btn-save').textContent = edit.index + 1 < total ? '저장하고 다음' : '저장';
+  fillFields({});
+  $('edit-img').removeAttribute('src');
+  ocrState('이미지를 준비하는 중…');
+  edit.current = null;
+  try {
+    const src = await fileToCanvasSource(file);
+    if (token !== edit.token) return;
+    const image = toJpeg(src, 1080, 2400, MAX_IMAGE, 0.86);
+    const thumb = toJpeg(src, 360, 480, MAX_THUMB, 0.72);
+    edit.current = { image, thumb };
+    $('edit-img').src = image;
+    ocrState('✨ 이미지의 글자를 읽고 있어요… (처음 한 번은 도구를 받느라 조금 걸려요)');
+    try {
+      const found = await readGift(src, (m) => {
+        if (token !== edit.token || !m || typeof m.progress !== 'number') return;
+        const pct = Math.round(m.progress * 100);
+        const what = m.status === 'recognizing text' ? '글자를 읽고 있어요' : '글자 읽기 도구를 준비하고 있어요';
+        ocrState('✨ ' + what + '… ' + pct + '%');
+      });
+      if (token !== edit.token) return;
+      if (!edit.dirty.name && found.name) $('f-name').value = found.name;
+      if (!edit.dirty.brand && found.brand) $('f-brand').value = found.brand;
+      if (!edit.dirty.expiry && found.expiry) $('f-expiry').value = found.expiry;
+      const got = [found.name && '이름', found.brand && '브랜드', found.expiry && '유효기간'].filter(Boolean);
+      if (got.length) ocrState('✅ ' + got.join('·') + '을 채웠어요. 맞는지 한 번 확인해 주세요.', 'done');
+      else ocrState('글자를 잘 못 읽었어요. 직접 적어 주세요.', 'fail');
+    } catch (e) {
+      if (token !== edit.token) return;
+      ocrState('글자를 읽지 못했어요(' + (navigator.onLine ? '도구 오류' : '인터넷 없음') + '). 직접 적어 주세요.', 'fail');
+    }
+  } catch (e) {
+    if (token !== edit.token) return;
+    ocrState('이 이미지는 열 수 없어요. 다른 이미지를 골라 주세요.', 'fail');
+  }
+}
+
+function openEditExisting(it) {
+  edit.queue = []; edit.editingId = it.id; edit.current = null; edit.token++;
+  $('edit-title').textContent = '기프티콘 고치기';
+  $('btn-skip').classList.add('hidden');
+  $('btn-save').textContent = '저장';
+  fillFields(it);
+  ocrState('');
+  const img = state.images.get(it.id);
+  if (img) $('edit-img').src = img; else if (it.thumb) $('edit-img').src = it.thumb; else $('edit-img').removeAttribute('src');
+  openEditSheet();
+}
+
+async function saveEdit() {
+  const values = {
+    name: oneLine($('f-name').value, 60),
+    brand: oneLine($('f-brand').value, 30),
+    expiry: /^\d{4}-\d{2}-\d{2}$/.test($('f-expiry').value) ? $('f-expiry').value : '',
+    memo: String($('f-memo').value || '').trim().slice(0, 300)
+  };
+  if (!values.name && !values.brand) { toast('이름이나 브랜드를 적어 주세요'); $('f-name').focus(); return; }
+  try {
+    if (edit.editingId) {
+      const it = state.items.find((x) => x.id === edit.editingId);
+      if (!it) { closeEdit(); return; }
+      const changes = Object.assign({}, values);
+      for (const k of ['brand', 'expiry', 'memo']) if (!changes[k]) changes[k] = null;
+      const p = fb.fs.setDoc(ref.item(state.room, it.id), itemPayload(it, changes));
+      closeEdit();
+      toast('고쳤어요');
+      await p;
+      return;
+    }
+    if (!edit.current) { toast('이미지를 준비하고 있어요. 잠시만요'); return; }
+    const id = randomId(20);
+    const now = fb.fs.Timestamp.now();
+    const b = fb.fs.writeBatch(fb.db);
+    b.set(ref.image(state.room, id), { data: edit.current.image, updatedAt: now });
+    b.set(ref.item(state.room, id), itemPayload({}, Object.assign(values, {
+      used: false, thumb: edit.current.thumb, author: oneLine(state.name, 20), createdAt: now
+    })));
+    state.images.set(id, edit.current.image);
+    const p = b.commit();
+    edit.index++;
+    toast('「' + (values.name || values.brand) + '」 넣었어요 🎁');
+    if (edit.index < edit.queue.length) nextInQueue(); else closeEdit();
+    if (state.tab === 'used') { state.tab = 'active'; store(K_TAB, 'active'); render(); }
+    await p;
+  } catch (e) { toast(errText(e)); }
+}
+
+/* ---------------------------------------------------------------- 크게 보기 */
+async function loadImage(id, fromCacheOnly) {
+  if (state.images.has(id)) return state.images.get(id);
+  const r = ref.image(state.room, id);
+  let snap = null;
+  try { snap = await fb.fs.getDocFromCache(r); } catch (e) { snap = null; }
+  if ((!snap || !snap.exists()) && !fromCacheOnly) snap = await fb.fs.getDoc(r);
+  const data = snap && snap.exists() ? snap.get('data') : '';
+  if (data) state.images.set(id, data);
+  return data;
+}
+/* 쓰지 않은 기프티콘의 원본은 미리 받아 둔다 — 매장에서 인터넷이 약해도 바로 열리게 */
+let prefetching = false;
+async function prefetchImages() {
+  if (prefetching) return;
+  prefetching = true;
+  try {
+    for (const it of state.items.filter((x) => !x.used)) {
+      if (state.images.has(it.id)) continue;
+      try { await loadImage(it.id); } catch (e) { break; }
+    }
+  } finally { prefetching = false; }
+}
+
+function fillViewer(it) {
+  const v = $('viewer');
+  v.classList.toggle('used', !!it.used);
+  $('v-name').textContent = label(it);
+  const today = todayKey();
+  const dd = ddayInfo(it, today);
+  const parts = [];
+  if (it.brand && it.brand !== label(it)) parts.push(it.brand);
+  if (it.expiry) parts.push('~' + prettyDate(it.expiry) + (dd && !it.used ? ' (' + dd.text + ')' : ''));
+  if (it.used) parts.push('✓ ' + (it.usedBy ? it.usedBy + '님이 ' : '') + '사용 완료');
+  else if (it.author) parts.push(it.author + '님이 넣음');
+  $('v-sub').textContent = parts.join(' · ');
+  $('v-memo').textContent = it.memo || '';
+  $('v-memo').classList.toggle('hidden', !it.memo);
+  const use = $('v-use');
+  use.textContent = it.used ? '↺ 사용 전으로' : '✓ 사용 완료';
+  use.classList.toggle('undo', !!it.used);
+}
+async function openViewer(id) {
+  const it = state.items.find((x) => x.id === id);
+  if (!it) return;
+  state.viewing = id;
+  fillViewer(it);
+  const img = $('v-img');
+  img.src = it.thumb || '';
+  $('v-loading').classList.toggle('hidden', true);
+  $('viewer').classList.remove('hidden');
+  try {
+    const data = await loadImage(id);
+    if (state.viewing === id && data) img.src = data;
+  } catch (e) {
+    if (state.viewing === id) toast('원본 이미지를 받지 못했어요. 인터넷을 확인해 주세요.');
+  }
+}
+function closeViewer() { state.viewing = null; $('viewer').classList.add('hidden'); }
+
+async function saveImageFile() {
+  const it = state.items.find((x) => x.id === state.viewing);
+  if (!it) return;
+  const data = await loadImage(it.id).catch(() => '');
+  if (!data) { toast('원본 이미지를 받지 못했어요'); return; }
+  const name = ('기프티콘-' + label(it)).replace(/[\\/:*?"<>|]/g, '_').slice(0, 60) + '.jpg';
+  if (window.AndroidApp && typeof window.AndroidApp.saveImage === 'function') { window.AndroidApp.saveImage(data, name); return; }
+  const a = document.createElement('a');
+  a.href = data; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+}
+
+/* ---------------------------------------------------------------- 설정 */
+async function openSettings() {
+  $('s-name').value = state.name;
+  $('s-code').textContent = formatCode(state.code);
+  renderPushSettings();
+  $('settings-sheet').classList.remove('hidden');
+  $('s-members').textContent = '';
+  try {
+    const qs = await fb.fs.getDocs(ref.members(state.room));
+    const names = qs.docs.map((d) => (d.id === fb.uid ? (d.get('name') || '나') + '(나)' : d.get('name') || '이름 없음'));
+    $('s-members').textContent = '함께하는 사람: ' + names.join(', ') + (qs.size < 2 ? ' — 아직 혼자예요. 초대 링크를 보내 보세요!' : '');
+  } catch (e) {}
+}
+function closeSettings() { $('settings-sheet').classList.add('hidden'); }
+
+async function saveName() {
+  const n = oneLine($('s-name').value, 20);
+  if (!n || n === state.name) { $('s-name').value = state.name; return; }
+  state.name = n;
+  store(K_NAME, n);
+  try {
+    await fb.fs.updateDoc(ref.member(state.room, fb.uid), { name: n });
+    if (push.registered) registerDevice().catch(() => {});
+    toast('이름을 바꿨어요');
+  } catch (e) { toast(errText(e)); }
+}
+
+function inviteText() {
+  return '🎁 우리 기프티콘함에 같이 모아요!\n아래 링크를 누르면 바로 들어올 수 있어요.\n' + APP_URL + '?join=' + state.code +
+    '\n(초대 코드: ' + formatCode(state.code) + ')';
+}
+async function shareInvite() {
+  const text = inviteText();
+  if (isAndroidApp()) { window.AndroidApp.share(text); return; }
+  if (navigator.share) {
+    try { await navigator.share({ title: '우리 기프티콘', text }); return; } catch (e) { if (e && e.name === 'AbortError') return; }
+  }
+  copyText(text, '초대 링크를 복사했어요. 카카오톡에 붙여 넣어 보내 주세요');
+}
+async function copyText(text, msg) {
+  try { await navigator.clipboard.writeText(text); toast(msg); } catch (e) {
+    const t = document.createElement('textarea');
+    t.value = text; document.body.appendChild(t); t.select();
+    try { document.execCommand('copy'); toast(msg); } catch (e2) { toast('복사하지 못했어요'); }
+    t.remove();
+  }
+}
+
+async function leaveRoom() {
+  if (!(await ask('이 기기에서 기프티콘함을 나갈까요?\n기프티콘은 지워지지 않고, 초대 코드로 다시 들어올 수 있어요.\n\n초대 코드: ' + formatCode(state.code), '나가기', true))) return;
+  busy('나가는 중…');
+  try {
+    await fb.fs.deleteDoc(ref.device(state.room)).catch(() => {});
+    await fb.fs.deleteDoc(ref.member(state.room, fb.uid));
+    if (state.unsub) state.unsub();
+    state.unsub = null; state.items = []; state.images.clear(); state.room = ''; state.code = '';
+    store(K_ROOM, null);
+    closeSettings();
+    showSetup('');
+  } catch (e) { toast(errText(e)); } finally { busy(''); }
+}
+
+/* ---------------------------------------------------------------- 알림 (FCM) */
+const push = { token: '', platform: '', messaging: null, registered: false };
+function readPush() {
+  let v = {};
+  try { v = JSON.parse(store(K_PUSH) || '{}') || {}; } catch (e) { v = {}; }
+  const leads = Array.isArray(v.leads) ? v.leads.filter((n) => LEAD_CHOICES.some((c) => c[0] === n)) : [0, 1, 3, 7];
+  return {
+    enabled: v.enabled === true, changeAlerts: v.changeAlerts !== false, expiryAlerts: v.expiryAlerts !== false,
+    remindTime: /^([01]\d|2[0-3]):[0-5]\d$/.test(v.remindTime || '') ? v.remindTime : '09:00', leads
+  };
+}
+function writePush(v) { store(K_PUSH, JSON.stringify(v)); }
+
+function pushSupport() {
+  if (window.AndroidApp && typeof window.AndroidApp.pushPermission === 'function') {
+    let perm = '';
+    try { perm = String(window.AndroidApp.pushPermission()); } catch (e) { perm = ''; }
+    return perm === 'unavailable' ? 'app-no-fcm' : 'android';
+  }
+  if (isIOS() && !isStandalone()) return 'ios-browser';
+  if (!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)) return 'unsupported';
+  return 'web';
+}
+function setPushStatus(text, tone) {
+  const s = $('p-status');
+  s.textContent = text || '';
+  s.className = 'push-status' + (tone ? ' ' + tone : '');
+  s.classList.toggle('hidden', !text);
+}
+function renderPushSettings() {
+  const v = readPush();
+  $('p-enabled').checked = v.enabled;
+  $('p-change').checked = v.changeAlerts;
+  $('p-expiry').checked = v.expiryAlerts;
+  $('p-time').value = v.remindTime;
+  $('p-more').classList.toggle('hidden', !v.enabled);
+  $('p-expiry-more').classList.toggle('hidden', !v.expiryAlerts);
+  $('p-leads').innerHTML = LEAD_CHOICES.map(([n, t]) =>
+    '<button class="chip' + (v.leads.includes(n) ? ' on' : '') + '" data-lead="' + n + '">' + t + '</button>').join('');
+  const kind = pushSupport();
+  if (kind === 'ios-browser') setPushStatus('아이폰은 사파리 공유 버튼 → 「홈 화면에 추가」로 연 앱에서 알림을 켤 수 있어요.', 'bad');
+  else if (kind === 'unsupported') setPushStatus('이 브라우저는 알림을 받을 수 없어요.', 'bad');
+  else if (kind === 'app-no-fcm') setPushStatus('이 앱 버전은 아직 알림 설정이 안 되어 있어요. 새 버전을 받아 주세요.', 'bad');
+  else if (v.enabled && push.registered) setPushStatus('✅ 이 기기로 알림이 와요.', 'good');
+  else if (v.enabled) setPushStatus('알림을 연결하는 중…');
+  else setPushStatus('');
+}
+
+let androidWaiters = [];
+window.__onPushToken = function (token) {
+  push.token = String(token || '');
+  const w = androidWaiters; androidWaiters = [];
+  w.forEach((fn) => fn(push.token));
+  if (push.token && push.platform === 'android' && push.registered) registerDevice().catch(() => {});
+};
+window.__onPushPermission = function (result) {
+  if (result !== 'granted') { const w = androidWaiters; androidWaiters = []; w.forEach((fn) => fn('')); }
+};
+function androidToken(interactive) {
+  return new Promise((resolve) => {
+    let now = '';
+    let perm = 'granted';
+    try { now = String(window.AndroidApp.getPushToken() || ''); } catch (e) {}
+    try { perm = String(window.AndroidApp.pushPermission()); } catch (e) {}
+    if (now && perm === 'granted') { resolve(now); return; }
+    if (perm !== 'granted' && !interactive) { resolve(''); return; }
+    androidWaiters.push(resolve);
+    if (perm !== 'granted') { try { window.AndroidApp.requestPushPermission(); } catch (e) {} }
+    setTimeout(() => { const i = androidWaiters.indexOf(resolve); if (i !== -1) { androidWaiters.splice(i, 1); resolve(''); } }, 20000);
+  });
+}
+async function webToken(interactive) {
+  if (Notification.permission === 'denied') return '';
+  if (Notification.permission !== 'granted') {
+    if (!interactive) return '';
+    if ((await Notification.requestPermission()) !== 'granted') return '';
+  }
+  if (!push.messaging) {
+    await loadFirebase();
+    const mod = await import('https://www.gstatic.com/firebasejs/' + FIREBASE_VERSION + '/firebase-messaging.js');
+    if (typeof mod.isSupported === 'function' && !(await mod.isSupported())) return '';
+    const messaging = mod.getMessaging(fb.app);
+    mod.onMessage(messaging, (payload) => {
+      const n = (payload && payload.notification) || {};
+      toast((n.title ? n.title + ' — ' : '') + (n.body || '새 알림'));
+    });
+    push.messaging = { mod, messaging };
+  }
+  const reg = await navigator.serviceWorker.register('firebase-messaging-sw.js', { scope: './' });
+  return await push.messaging.mod.getToken(push.messaging.messaging, { vapidKey: VAPID_KEY, serviceWorkerRegistration: reg });
+}
+async function obtainToken(interactive) {
+  const kind = pushSupport();
+  if (kind === 'android') { push.platform = 'android'; return androidToken(interactive); }
+  if (kind === 'web') { push.platform = 'web'; return webToken(interactive); }
+  return '';
+}
+async function registerDevice() {
+  if (!state.room || !push.token) return;
+  const v = readPush();
+  if (!v.enabled) return;
+  let tz = 'Asia/Seoul';
+  try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || tz; } catch (e) {}
+  const now = fb.fs.Timestamp.now();
+  await fb.fs.setDoc(ref.device(state.room), {
+    token: push.token, platform: push.platform === 'android' ? 'android' : 'web', enabled: true,
+    changeAlerts: v.changeAlerts, expiryAlerts: v.expiryAlerts, leads: v.leads, remindTime: v.remindTime,
+    tz: String(tz).slice(0, 64), name: oneLine(state.name, 20), createdAt: now, updatedAt: now
+  }, { merge: true });
+  push.registered = true;
+}
+async function refreshPush(interactive) {
+  const v = readPush();
+  if (!v.enabled || !state.room) return;
+  try {
+    const t = await obtainToken(interactive);
+    if (!t) {
+      push.registered = false;
+      if (interactive) {
+        v.enabled = false; writePush(v);
+        toast(pushSupport() === 'web' && window.Notification && Notification.permission === 'denied'
+          ? '알림이 막혀 있어요. 브라우저 설정에서 이 사이트의 알림을 허용해 주세요.' : '알림을 켜지 못했어요.');
+      }
+    } else {
+      push.token = t;
+      await registerDevice();
+    }
+  } catch (e) {
+    push.registered = false;
+    if (interactive) toast('알림을 켜지 못했어요: ' + errText(e));
+  }
+  if (!$('settings-sheet').classList.contains('hidden')) renderPushSettings();
+}
+async function changePush(fn) {
+  const v = readPush();
+  fn(v);
+  writePush(v);
+  renderPushSettings();
+  if (!v.enabled) {
+    push.registered = false;
+    try { await fb.fs.deleteDoc(ref.device(state.room)); } catch (e) {}
+    renderPushSettings();
+    return;
+  }
+  if (push.registered && push.token) {
+    try { await registerDevice(); } catch (e) { toast(errText(e)); }
+  } else {
+    await refreshPush(true);
+  }
+}
+
+/* ---------------------------------------------------------------- 연결 */
+$('btn-create').onclick = createRoom;
+$('btn-join').onclick = joinRoom;
+$('setup-code').addEventListener('keydown', (e) => { if (e.key === 'Enter') joinRoom(); });
+$('setup-code').addEventListener('input', (e) => {
+  const c = normalizeCode(e.target.value).slice(0, 16);
+  const f = formatCode(c);
+  if (f !== e.target.value) e.target.value = f;
+});
+$('btn-add').onclick = () => { $('file-input').value = ''; $('file-input').click(); };
+$('file-input').onchange = (e) => addFiles(e.target.files);
+$('btn-settings').onclick = openSettings;
+$('search').addEventListener('input', (e) => { state.query = e.target.value; render(); });
+document.querySelectorAll('.tab').forEach((t) => t.addEventListener('click', () => {
+  state.tab = t.dataset.tab; store(K_TAB, state.tab); render(); window.scrollTo({ top: 0 });
+}));
+$('grid').addEventListener('click', (e) => {
+  const check = e.target.closest('[data-check]');
+  if (check) {
+    e.stopPropagation();
+    const it = state.items.find((x) => x.id === check.dataset.check);
+    if (it) setUsed(it.id, !it.used);
+    return;
+  }
+  const card = e.target.closest('.card');
+  if (card) openViewer(card.dataset.id);
+});
+['name', 'brand', 'expiry'].forEach((k) => $('f-' + k).addEventListener('input', () => { edit.dirty[k] = true; }));
+$('btn-save').onclick = saveEdit;
+$('btn-skip').onclick = () => { edit.index++; nextInQueue(); };
+$('v-use').onclick = () => {
+  const it = state.items.find((x) => x.id === state.viewing);
+  if (it) setUsed(it.id, !it.used, true);
+};
+$('v-delete').onclick = () => { if (state.viewing) deleteItem(state.viewing); };
+$('v-edit').onclick = () => {
+  const it = state.items.find((x) => x.id === state.viewing);
+  if (it) openEditExisting(it);
+};
+$('v-save').onclick = saveImageFile;
+$('s-name').addEventListener('change', saveName);
+$('btn-share').onclick = shareInvite;
+$('btn-copy').onclick = () => copyText(formatCode(state.code), '초대 코드를 복사했어요');
+$('btn-leave').onclick = leaveRoom;
+$('p-enabled').onchange = (e) => changePush((v) => { v.enabled = e.target.checked; });
+$('p-change').onchange = (e) => changePush((v) => { v.changeAlerts = e.target.checked; });
+$('p-expiry').onchange = (e) => changePush((v) => { v.expiryAlerts = e.target.checked; });
+$('p-time').onchange = (e) => changePush((v) => { if (/^([01]\d|2[0-3]):[0-5]\d$/.test(e.target.value)) v.remindTime = e.target.value; });
+$('p-leads').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-lead]');
+  if (!b) return;
+  const n = Number(b.dataset.lead);
+  changePush((v) => { v.leads = v.leads.includes(n) ? v.leads.filter((x) => x !== n) : v.leads.concat(n).sort((a, c) => a - c); });
+});
+document.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', () => {
+  const w = b.dataset.close;
+  if (w === 'edit') closeEdit(); else if (w === 'viewer') closeViewer(); else closeSettings();
+}));
+['edit-sheet', 'settings-sheet'].forEach((id) => $(id).addEventListener('click', (e) => {
+  if (e.target === $(id)) { if (id === 'edit-sheet') closeEdit(); else closeSettings(); }
+}));
+
+/* 뒤로 가기(안드로이드 앱·Esc): 열린 창부터 닫는다. 닫았으면 true */
+window.__onBack = function () {
+  if (dialogDone) { dialogDone(false); return true; }
+  if (!$('edit-sheet').classList.contains('hidden')) { closeEdit(); return true; }
+  if (!$('settings-sheet').classList.contains('hidden')) { closeSettings(); return true; }
+  if (!$('viewer').classList.contains('hidden')) { closeViewer(); return true; }
+  return false;
+};
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') window.__onBack(); });
+/* 자정이 지나면 D-day 다시 계산 */
+document.addEventListener('visibilitychange', () => { if (!document.hidden && state.room) render(); });
+
+start();
+</script>
+</body>
+</html>

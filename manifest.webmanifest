@@ -1,0 +1,19 @@
+{
+  "name": "우리 기프티콘",
+  "short_name": "우리 기프티콘",
+  "description": "연인과 함께 기프티콘을 모아 두고, 쓴 것은 체크해 흑백으로 정리하는 기프티콘함.",
+  "lang": "ko",
+  "dir": "ltr",
+  "scope": "./",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFF7F3",
+  "theme_color": "#FFF7F3",
+  "categories": ["lifestyle", "shopping"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
